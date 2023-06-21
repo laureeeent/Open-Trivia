@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Open Trivia
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -14,7 +14,72 @@
   </ion-header>
 
   <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+
+    <!-- Block 1 -->
+
+    <div *ngIf="isState('step_1')">
+      <ion-item>
+        <ion-input type="text" placeholder="Entrez votre pseudonyme" [(ngModel)]="pseudonyme"/>
+      </ion-item>
+      
+      <br>
+      
+      <ion-list>
+        <ion-item>
+          <ion-select label="Difficulté" [ngModel]="chosenDifficulty">
+            <ion-select-option *ngFor="let difficulty of difficulties" [value]="difficulty.value">
+                {{difficulty.text}}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+      <ion-item>
+        <ion-toggle [(ngModel)]="remember">Sauvegader mes informations</ion-toggle>
+      </ion-item>
+
+      <br>
+
+      <ion-item>
+        <ion-button (click)="login()">Se connecter</ion-button>
+      </ion-item>
+
+      <br>
+      <ion-button (click)="isPseudoCorrect()" id="button-commencer">Commencer</ion-button>
+    </div>
+
+
+    <!-- Block 2  -->
+    <div *ngIf="isState('step_2')">
+      <p>Bienvenue {{pseudonyme}}</p>
+      <br>
+      <h3>De quelle couleur est le cheval blanc d'Henri IV ?</h3>
+      <br>
+      <div id="response-buttons">
+        <div class="answer-button_line">
+          <ion-grid>
+            <ion-row>
+              <ion-col><ion-button (click)="pushAnswer('Blanc')" class="response-buttons" expand="block">Blanc</ion-button></ion-col>
+              <ion-col> <ion-button (click)="pushAnswer('Noir')" class="response-buttons" expand="block">Noir</ion-button></ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col><ion-button (click)="pushAnswer('Marron')" class="response-buttons" expand="block">Marron</ion-button></ion-col>
+              <ion-col> <ion-button (click)="pushAnswer('Je ne sais pas')" class="response-buttons" expand="block">Je ne sais pas</ion-button></ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+        <br>
+      </div>
+
+      <br>
+      
+      <ion-button *ngIf="userAnswer != ''" (click)="setState('step_3')">Question Suivante</ion-button>
+    </div>
+
+
+    <!-- Block 3 -->
+    <div *ngIf="isState('step_3')">
+        <ion-label>Step 3</ion-label>
+    </div>
+    
   </div>
 </ion-content>
